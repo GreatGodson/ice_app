@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:iec_app/app/modules/home/views/screens/home_screen.dart';
+import 'package:iec_app/app/modules/wrapper/views/bottom_nav_bar.dart';
 import 'package:iec_app/app/shared/utils/theme/app_color.dart';
 import 'package:iec_app/app/shared/views/widgets/buttons/primary_button.dart';
 import 'package:iec_app/app/shared/views/widgets/custom_divider.dart';
@@ -141,20 +143,17 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                                               fontSize: 12))
                                     ],
                                   ),
-                                )
-                                // const TextWidget(
-                                //     text: 'I accept all the Terms & Conditions',
-                                //     color: AppColor.darkTextColor,
-                                //     fontWeight: FontWeight.w400,
-                                //     fontSize: 12)
-                                ),
+                                )),
                           ),
                         ],
                       )),
                 ),
                 PrimaryButton(
                   title: 'Sign up',
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (_) => const BottomNavBarWidget()));
+                  },
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 31, bottom: 33),

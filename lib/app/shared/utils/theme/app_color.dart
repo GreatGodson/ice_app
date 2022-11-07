@@ -9,4 +9,7 @@ class AppColor {
   static const Color blackColor = Color(0XFF000000);
   static const Color dividerColor = Color(0XFF232E24);
   static const Color brightPrimaryColor = Color.fromRGBO(246, 121, 82, 0.1);
+  static const Color categoryCardBorderColor = Color.fromRGBO(0, 0, 0, 0.05);
+  static const Color brightTextColor = Color.fromRGBO(0, 0, 0, 0.5);
+  static const Color productBackgroundColor = Color(0XFFEFEFF2);
 }
