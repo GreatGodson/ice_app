@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:iec_app/app/modules/product/views/screens/product_detail_screen.dart';
 import 'package:iec_app/app/shared/utils/theme/app_color.dart';
 import 'package:iec_app/app/shared/views/widgets/custom_text_widget.dart';
 import 'package:iec_app/app/shared/views/widgets/text_field/search_textfield.dart';
@@ -104,57 +105,64 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 itemBuilder: (context, index) {
                   return Padding(
                     padding: const EdgeInsets.only(right: 17),
-                    child: Container(
-                      width: size.width / 2.49,
-                      decoration: BoxDecoration(
-                          color: AppColor.whiteColor,
-                          borderRadius: BorderRadius.circular(15),
-                          border: Border.all(
-                              color: AppColor.categoryCardBorderColor)),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          Container(
-                            // height: size.height / 5.3,
-                            height: 133,
-                            width: size.width / 2.79,
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (_) => const ProductDetailScreen()));
+                      },
+                      child: Container(
+                        width: size.width / 2.49,
+                        decoration: BoxDecoration(
+                            color: AppColor.whiteColor,
+                            borderRadius: BorderRadius.circular(15),
+                            border: Border.all(
+                                color: AppColor.categoryCardBorderColor)),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Container(
+                              // height: size.height / 5.3,
+                              height: 133,
+                              width: size.width / 2.79,
 
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(15),
-                                color: AppColor.productBackgroundColor,
-                                border: Border.all(
-                                    color: AppColor.productBackgroundColor)),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                SvgPicture.asset(
-                                  'assets/svgs/${categories[index].categoryImageName}.svg',
-                                  height: size.height / 8,
-                                ),
-                              ],
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(15),
+                                  color: AppColor.productBackgroundColor,
+                                  border: Border.all(
+                                      color: AppColor.productBackgroundColor)),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  SvgPicture.asset(
+                                    'assets/svgs/${categories[index].categoryImageName}.svg',
+                                    height: size.height / 8,
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 5, bottom: 2),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                TextWidget(
-                                    textAlign: TextAlign.center,
-                                    fontWeight: FontWeight.w400,
-                                    color: AppColor.blackColor,
-                                    fontSize: 12,
-                                    text: categories[index].categoryName),
-                                TextWidget(
-                                    textAlign: TextAlign.center,
-                                    fontWeight: FontWeight.w500,
-                                    color: AppColor.blackColor,
-                                    fontSize: 12,
-                                    text: '233')
-                              ],
-                            ),
-                          )
-                        ],
+                            Padding(
+                              padding: const EdgeInsets.only(top: 5, bottom: 2),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: [
+                                  TextWidget(
+                                      textAlign: TextAlign.center,
+                                      fontWeight: FontWeight.w400,
+                                      color: AppColor.blackColor,
+                                      fontSize: 12,
+                                      text: categories[index].categoryName),
+                                  const TextWidget(
+                                      textAlign: TextAlign.center,
+                                      fontWeight: FontWeight.w500,
+                                      color: AppColor.blackColor,
+                                      fontSize: 12,
+                                      text: '233')
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
                       ),
                     ),
                   );

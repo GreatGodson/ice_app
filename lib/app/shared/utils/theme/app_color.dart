@@ -12,4 +12,6 @@ class AppColor {
   static const Color categoryCardBorderColor = Color.fromRGBO(0, 0, 0, 0.05);
   static const Color brightTextColor = Color.fromRGBO(0, 0, 0, 0.5);
   static const Color productBackgroundColor = Color(0XFFEFEFF2);
+  static const Color productDetailsBackgroundColor =
+      Color.fromRGBO(51, 53, 71, 0.06);
 }
