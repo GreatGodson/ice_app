@@ -7,6 +7,7 @@ import 'package:iec_app/app/modules/category/views/screens/category_products.dar
 import 'package:iec_app/app/modules/product/data/models/get_all_product_model.dart';
 import 'package:iec_app/app/modules/product/domain/providers/produts_provider.dart';
 import 'package:iec_app/app/modules/product/views/screens/product_detail_screen.dart';
+import 'package:iec_app/app/shared/managers/location_manager.dart';
 import 'package:iec_app/app/shared/utils/theme/app_color.dart';
 import 'package:iec_app/app/shared/views/widgets/custom_text_widget.dart';
 import 'package:iec_app/app/shared/views/widgets/text_field/search_textfield.dart';
@@ -39,84 +40,148 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   ];
 
   @override
+  void initState() {
+    LocationManager.setLocationName(context);
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     final allProducts = ref.watch(getAllProductsRepository);
     return Scaffold(
         backgroundColor: AppColor.scaffoldBackgroundColor,
         appBar: AppBar(
+          centerTitle: true,
           backgroundColor: AppColor.scaffoldBackgroundColor,
           elevation: 0.0,
+          actions: [
+            Padding(
+              padding: const EdgeInsets.only(right: 5),
+              child: SvgPicture.asset(
+                'assets/svgs/notificationIcon.svg',
+              ),
+            ),
+          ],
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SvgPicture.asset(
+                'assets/svgs/locationIcon.svg',
+                height: 15,
+              ),
+              const Padding(
+                padding: EdgeInsets.only(left: 10),
+                child: TextWidget(
+                    fontWeight: FontWeight.w400,
+                    color: AppColor.blackColor,
+                    fontSize: 14,
+                    text: 'Lagos,Nigeria'),
+              ),
+            ],
+          ),
+          leading: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SvgPicture.asset(
+                'assets/svgs/drawerIcon.svg',
+              ),
+            ],
+          ),
         ),
         body: ListView(
           padding: const EdgeInsets.only(left: 20),
           children: [
-            SearchTextField(
-              size: size,
-              onChanged: (val) {},
-              prefixIconName: 'search',
-              suffixIconName: 'searchButtonIcon',
-              hintText: 'Search items...',
+            const Padding(
+              padding: EdgeInsets.only(top: 20),
+              child: TextWidget(
+                  fontWeight: FontWeight.w500,
+                  color: AppColor.blackColor,
+                  fontSize: 32,
+                  text: 'Explore'),
             ),
-            SizedBox(
-              height: size.height / 9,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: categories.length,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.only(right: 17),
-                    child: GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (_) => CategoryProductsScreen(
-                                categoryName: categories[index].categoryName)));
-                      },
-                      child: Container(
-                        width: size.width / 4.6,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(15),
-                            border: Border.all(
-                                color: AppColor.categoryCardBorderColor)),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Expanded(
-                              child: Padding(
-                                padding: const EdgeInsets.only(
-                                    top: 8, left: 5, right: 5),
-                                child: CachedNetworkImage(
-                                  progressIndicatorBuilder:
-                                      (context, url, progress) => Center(
-                                    child: CircularProgressIndicator(
-                                      value: progress.progress,
-                                      color: AppColor.primaryColor,
-                                    ),
-                                  ),
-                                  imageUrl: categories[index].categoryImageName,
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                  top: 5, bottom: 5, left: 5, right: 5),
-                              child: TextWidget(
-                                  textAlign: TextAlign.center,
-                                  fontWeight: FontWeight.w500,
-                                  color: AppColor.darkTextColor,
-                                  fontSize: 12,
-                                  text: categories[index].categoryName),
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                  );
-                },
-              ),
+            const Padding(
+              padding: EdgeInsets.only(top: 25.5, bottom: 25.5),
+              child: TextWidget(
+                  fontWeight: FontWeight.w400,
+                  color: AppColor.brightTextColor,
+                  fontSize: 20,
+                  text: 'best Outfits for you'),
             ),
             Padding(
               padding: const EdgeInsets.only(right: 20),
+              child: SearchTextField(
+                size: size,
+                onChanged: (val) {},
+                prefixIconName: 'search',
+                suffixIconName: 'searchButtonIcon',
+                hintText: 'Search items...',
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 35, bottom: 40),
+              child: SizedBox(
+                height: size.height / 9,
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: categories.length,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.only(right: 17),
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (_) => CategoryProductsScreen(
+                                  categoryName:
+                                      categories[index].categoryName)));
+                        },
+                        child: Container(
+                          width: size.width / 4.6,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15),
+                              border: Border.all(
+                                  color: AppColor.categoryCardBorderColor)),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Expanded(
+                                child: Padding(
+                                  padding: const EdgeInsets.only(
+                                      top: 8, left: 5, right: 5),
+                                  child: CachedNetworkImage(
+                                    progressIndicatorBuilder:
+                                        (context, url, progress) => Center(
+                                      child: CircularProgressIndicator(
+                                        value: progress.progress,
+                                        color: AppColor.primaryColor,
+                                      ),
+                                    ),
+                                    imageUrl:
+                                        categories[index].categoryImageName,
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                    top: 5, bottom: 5, left: 5, right: 5),
+                                child: TextWidget(
+                                    textAlign: TextAlign.center,
+                                    fontWeight: FontWeight.w500,
+                                    color: AppColor.darkTextColor,
+                                    fontSize: 12,
+                                    text: categories[index].categoryName),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(right: 20, bottom: 17),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: const [
