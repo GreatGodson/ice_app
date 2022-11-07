@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:iec_app/app/modules/home/views/screens/home_screen.dart';
 import 'package:iec_app/app/modules/wrapper/views/bottom_nav_bar.dart';
 import 'package:iec_app/app/shared/utils/theme/app_color.dart';
 import 'package:iec_app/app/shared/views/widgets/buttons/primary_button.dart';

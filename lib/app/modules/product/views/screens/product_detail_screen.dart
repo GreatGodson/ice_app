@@ -13,35 +13,6 @@ class ProductDetailScreen extends StatefulWidget {
 }
 
 class _ProductDetailScreenState extends State<ProductDetailScreen> {
-  // @override
-  // void initState() {
-  //   // TODO: implement initState
-  //   WidgetsBinding.instance.addPostFrameCallback((_) {
-  //     showModalBottomSheet(
-  //         barrierColor: Colors.transparent,
-  //         isDismissible: false,
-  //         enableDrag: false,
-  //         context: context,
-  //         shape: const RoundedRectangleBorder(
-  //           // <-- SEE HERE
-  //           borderRadius: BorderRadius.vertical(
-  //             top: Radius.circular(25.0),
-  //           ),
-  //         ),
-  //         builder: (context) {
-  //           return SizedBox(
-  //             height: 200,
-  //             child: Column(
-  //               crossAxisAlignment: CrossAxisAlignment.start,
-  //               mainAxisSize: MainAxisSize.min,
-  //               children: const <Widget>[],
-  //             ),
-  //           );
-  //         });
-  //   });
-  //   super.initState();
-  // }
-
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
