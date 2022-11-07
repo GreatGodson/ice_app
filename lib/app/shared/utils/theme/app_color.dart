@@ -17,4 +17,11 @@ class AppColor {
 
   static const Color cartIconColor = Color.fromRGBO(246, 121, 82, 0.15);
   static const Color subTotalColor = Color(0XFF222030);
+
+  static const brightPinkColor = Color.fromRGBO(246, 121, 82, 0.07);
+
+  static const brightBlueTheme = Color.fromRGBO(14, 162, 246, 0.07);
+
+  static const brightYellowTheme = Color.fromRGBO(255, 193, 7, 0.07);
+  static const mainBlackColor = Color(0XFF231F20);
 }
