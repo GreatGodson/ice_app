@@ -19,7 +19,9 @@ dependencies:
 
   cupertino_icons: ^1.0.2
   flutter_svg: ^1.1.6
-  flutter_riverpod: ^2.1.1
+  flutter_riverpod: ^1.0.4
+  http: ^0.13.5
+  cached_network_image: ^3.2.2
 
 dev_dependencies:
   flutter_test:
