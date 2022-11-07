@@ -117,7 +117,15 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           child: GestureDetector(
                             onTap: () {
                               Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (_) => const ProductDetailScreen()));
+                                  builder: (_) => ProductDetailScreen(
+                                      productId:
+                                          products[index]["id"].toString(),
+                                      productName: products[index]["title"],
+                                      productDescription: products[index]
+                                          ["description"],
+                                      productImageUrl: products[index]["image"],
+                                      productPrice: products[index]["price"]
+                                          .toString())));
                             },
                             child: Container(
                               width: size.width / 2.49,

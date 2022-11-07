@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:iec_app/app/modules/cart/views/screens/cart_screen.dart';
@@ -6,7 +7,20 @@ import 'package:iec_app/app/shared/views/widgets/buttons/primary_button.dart';
 import 'package:iec_app/app/shared/views/widgets/custom_text_widget.dart';
 
 class ProductDetailScreen extends StatefulWidget {
-  const ProductDetailScreen({Key? key}) : super(key: key);
+  const ProductDetailScreen(
+      {Key? key,
+      required this.productId,
+      required this.productName,
+      required this.productDescription,
+      required this.productImageUrl,
+      required this.productPrice})
+      : super(key: key);
+
+  final String productName;
+  final String productImageUrl;
+  final String productDescription;
+  final String productPrice;
+  final String productId;
 
   @override
   State<ProductDetailScreen> createState() => _ProductDetailScreenState();
@@ -17,7 +31,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      backgroundColor: AppColor.productBackgroundColor,
+      backgroundColor: AppColor.whiteColor,
       appBar: AppBar(
         actions: [
           Padding(
@@ -29,61 +43,89 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
         ],
         elevation: 0.0,
         iconTheme: const IconThemeData(color: AppColor.blackColor),
-        backgroundColor: AppColor.productBackgroundColor,
+        backgroundColor: AppColor.whiteColor,
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          SvgPicture.asset(
-            'assets/svgs/google.svg',
-            height: 100,
-          ),
-          Container(
-            height: size.height / 2.34,
-            width: double.infinity,
-            decoration: const BoxDecoration(
-              color: AppColor.whiteColor,
-              borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(45), topRight: Radius.circular(45)),
-            ),
+          Expanded(
             child: Padding(
-              padding: const EdgeInsets.only(
-                  left: 20, right: 20, top: 30, bottom: 32.15),
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: const [
-                      Expanded(
-                        child: TextWidget(
-                            fontWeight: FontWeight.w500,
-                            color: AppColor.darkTextColor,
-                            fontSize: 20,
-                            text: 'My product for sale'),
-                      ),
-                      TextWidget(
-                          fontWeight: FontWeight.w500,
-                          color: AppColor.blackColor,
-                          fontSize: 18,
-                          text: '300'),
-                    ],
+              padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
+              child: CachedNetworkImage(
+                progressIndicatorBuilder: (context, url, progress) => Center(
+                  child: CircularProgressIndicator(
+                    value: progress.progress,
+                    color: AppColor.primaryColor,
                   ),
-                  const Padding(
-                      padding: EdgeInsets.only(top: 17),
-                      child: TextWidget(
-                          fontWeight: FontWeight.w400,
-                          color: AppColor.brightTextColor,
-                          fontSize: 14,
-                          text:
-                              '3fnfoifninfinfonfnifbfbfibffbfubffubfufbfufbfufboifn;pfnfifnfionfinfifnfiofnifnfifnfinnnfinfnioflfnfnfiofnnfifnfifnifnnfofnffnofnfonifofnffonfnfnifnof')),
-                  const Spacer(),
-                  PrimaryButton(
-                      title: 'Add to Cart',
-                      onPressed: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => const CartScreen()));
-                      })
-                ],
+                ),
+                imageUrl: widget.productImageUrl,
+              ),
+            ),
+          ),
+          // SvgPicture.asset(
+          //   'assets/svgs/google.svg',
+          //   height: 100,
+          // ),
+          Padding(
+            padding: const EdgeInsets.only(top: 25),
+            child: Container(
+              height: size.height / 2.34,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                  color: AppColor.whiteColor,
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(45),
+                    topRight: Radius.circular(45),
+                  ),
+                  border: Border.all(
+                      color: AppColor.productBackgroundColor, width: 2)),
+              child: Padding(
+                padding: const EdgeInsets.only(
+                    left: 20, right: 20, top: 30, bottom: 32.15),
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: TextWidget(
+                              fontWeight: FontWeight.w500,
+                              color: AppColor.darkTextColor,
+                              fontSize: 20,
+                              text: widget.productName),
+                        ),
+                        TextWidget(
+                            fontWeight: FontWeight.w500,
+                            color: AppColor.blackColor,
+                            fontSize: 18,
+                            text: '＄${widget.productPrice}'),
+                      ],
+                    ),
+                    Expanded(
+                      child: ListView(
+                        children: [
+                          Padding(
+                              padding: const EdgeInsets.only(top: 17),
+                              child: TextWidget(
+                                  fontWeight: FontWeight.w400,
+                                  color: AppColor.brightTextColor,
+                                  fontSize: 14,
+                                  text: widget.productDescription)),
+                        ],
+                      ),
+                    ),
+                    // const Spacer(),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 5),
+                      child: PrimaryButton(
+                          title: 'Add to Cart',
+                          onPressed: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => const CartScreen()));
+                          }),
+                    )
+                  ],
+                ),
               ),
             ),
           ),
