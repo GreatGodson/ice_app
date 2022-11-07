@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:iec_app/app/modules/cart/views/screens/cart_screen.dart';
 import 'package:iec_app/app/modules/home/views/screens/home_screen.dart';
 import 'package:iec_app/app/shared/utils/theme/app_color.dart';
 
@@ -16,7 +17,7 @@ class BottomNavBarWidget extends ConsumerStatefulWidget {
 class _BottomNavBarWidgetState extends ConsumerState<BottomNavBarWidget> {
   final screens = [
     const HomeScreen(),
-    const HomeScreen(),
+    const CartScreen(),
     const HomeScreen(),
     const HomeScreen(),
   ];

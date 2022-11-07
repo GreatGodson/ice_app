@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:iec_app/app/modules/cart/views/screens/cart_screen.dart';
 import 'package:iec_app/app/shared/utils/theme/app_color.dart';
 import 'package:iec_app/app/shared/views/widgets/buttons/primary_button.dart';
 import 'package:iec_app/app/shared/views/widgets/custom_text_widget.dart';
@@ -105,7 +106,12 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                           text:
                               '3fnfoifninfinfonfnifbfbfibffbfubffubfufbfufbfufboifn;pfnfifnfionfinfifnfiofnifnfifnfinnnfinfnioflfnfnfiofnnfifnfifnifnnfofnffnofnfonifofnffonfnfnifnof')),
                   const Spacer(),
-                  PrimaryButton(title: 'Add to Cart', onPressed: () {})
+                  PrimaryButton(
+                      title: 'Add to Cart',
+                      onPressed: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => const CartScreen()));
+                      })
                 ],
               ),
             ),

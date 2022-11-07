@@ -14,4 +14,7 @@ class AppColor {
   static const Color productBackgroundColor = Color(0XFFEFEFF2);
   static const Color productDetailsBackgroundColor =
       Color.fromRGBO(51, 53, 71, 0.06);
+
+  static const Color cartIconColor = Color.fromRGBO(246, 121, 82, 0.15);
+  static const Color subTotalColor = Color(0XFF222030);
 }
