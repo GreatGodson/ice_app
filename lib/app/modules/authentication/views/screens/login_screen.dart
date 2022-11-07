@@ -27,14 +27,19 @@ class _LoginScreenState extends State<LoginScreen> {
         child: Padding(
           padding: const EdgeInsets.only(left: 20, right: 20),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            // mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              const Spacer(),
               SvgPicture.asset('assets/svgs/logo.svg'),
-              const TextWidget(
-                  fontWeight: FontWeight.w500,
-                  color: AppColor.blackColor,
-                  fontSize: 22,
-                  text: 'Log in'),
+              const Padding(
+                padding: EdgeInsets.only(top: 38),
+                child: TextWidget(
+                    fontWeight: FontWeight.w500,
+                    color: AppColor.blackColor,
+                    fontSize: 22,
+                    text: 'Log in'),
+              ),
+              const Spacer(),
               Form(
                   key: _formKey,
                   child: Column(
@@ -80,7 +85,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         },
                       ),
                       const Padding(
-                        padding: EdgeInsets.only(top: 18),
+                        padding: EdgeInsets.only(top: 18, bottom: 17),
                         child: TextWidget(
                             fontWeight: FontWeight.w400,
                             color: AppColor.darkTextColor,
@@ -93,58 +98,65 @@ class _LoginScreenState extends State<LoginScreen> {
                 title: 'Log in',
                 onPressed: () {},
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: const [
-                  CustomDivider(
-                    startPadding: true,
-                  ),
-                  TextWidget(
-                    text: 'Or',
-                    color: AppColor.darkTextColor,
-                    fontWeight: FontWeight.w400,
-                    fontSize: 12,
-                  ),
-                  CustomDivider(
-                    startPadding: false,
-                  ),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: const [
-                  FacebookGoogleButton(
-                    imageName: 'facebook',
-                  ),
-                  FacebookGoogleButton(
-                    imageName: 'google',
-                  )
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const TextWidget(
-                    text: 'Don’t have an account?',
-                    color: AppColor.darkTextColor,
-                    fontWeight: FontWeight.w400,
-                    fontSize: 14,
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (_) => const SignUpScreen()));
-                    },
-                    child: const TextWidget(
-                      text: 'Sign Up',
-                      color: AppColor.blackColor,
-                      fontWeight: FontWeight.w500,
-                      fontSize: 16,
+              Expanded(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: const [
+                    CustomDivider(
+                      startPadding: true,
                     ),
-                  )
-                ],
-              )
+                    TextWidget(
+                      text: 'Or',
+                      color: AppColor.darkTextColor,
+                      fontWeight: FontWeight.w400,
+                      fontSize: 12,
+                    ),
+                    CustomDivider(
+                      startPadding: false,
+                    ),
+                  ],
+                ),
+              ),
+              Expanded(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: const [
+                    FacebookGoogleButton(
+                      imageName: 'facebook',
+                    ),
+                    FacebookGoogleButton(
+                      imageName: 'google',
+                    )
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const TextWidget(
+                      text: 'Don’t have an account?',
+                      color: AppColor.darkTextColor,
+                      fontWeight: FontWeight.w400,
+                      fontSize: 14,
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (_) => const SignUpScreen()));
+                      },
+                      child: const TextWidget(
+                        text: 'Sign Up',
+                        color: AppColor.blackColor,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 16,
+                      ),
+                    )
+                  ],
+                ),
+              ),
             ],
           ),
         ),
