@@ -43,7 +43,7 @@ class LocationManager {
     return position;
   }
 
-  static setLocationName(BuildContext context) async {
+  setLocationName(BuildContext context) async {
     Position position = await LocationManager.getCurrentLocation(context);
     final lat = position.latitude;
     final lng = position.longitude;

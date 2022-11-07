@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:iec_app/app/modules/category/views/screens/category_products.dart';
+import 'package:iec_app/app/modules/location/domain/providers/location_provider.dart';
 import 'package:iec_app/app/modules/product/data/models/get_all_product_model.dart';
 import 'package:iec_app/app/modules/product/domain/providers/produts_provider.dart';
 import 'package:iec_app/app/modules/product/views/screens/product_detail_screen.dart';
@@ -39,16 +40,17 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             'https://fakestoreapi.com/img/81QpkIctqPL._AC_SX679_.jpg')
   ];
 
-  @override
-  void initState() {
-    LocationManager.setLocationName(context);
-    super.initState();
-  }
+  // @override
+  // void initState() {
+  //   LocationManager.setLocationName(context);
+  //   super.initState();
+  // }
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     final allProducts = ref.watch(getAllProductsRepository);
+    final location = ref.watch(locationRepository(context));
     return Scaffold(
         backgroundColor: AppColor.scaffoldBackgroundColor,
         appBar: AppBar(
@@ -70,14 +72,32 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 'assets/svgs/locationIcon.svg',
                 height: 15,
               ),
-              const Padding(
-                padding: EdgeInsets.only(left: 10),
-                child: TextWidget(
-                    fontWeight: FontWeight.w400,
-                    color: AppColor.blackColor,
-                    fontSize: 14,
-                    text: 'Lagos,Nigeria'),
-              ),
+              location.when(
+                  data: (userLocation) {
+                    return Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 10),
+                        child: TextWidget(
+                            fontWeight: FontWeight.w400,
+                            color: AppColor.blackColor,
+                            fontSize: 14,
+                            textAlign: TextAlign.center,
+                            text: userLocation),
+                      ),
+                    );
+                  },
+                  error: (error, stack) {
+                    return const Padding(
+                      padding: EdgeInsets.only(left: 10),
+                      child: TextWidget(
+                          fontWeight: FontWeight.w400,
+                          color: AppColor.blackColor,
+                          fontSize: 14,
+                          text: 'No Location'),
+                    );
+                    ;
+                  },
+                  loading: () => const SizedBox.shrink())
             ],
           ),
           leading: Column(
