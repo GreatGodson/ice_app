@@ -24,4 +24,5 @@ class AppColor {
 
   static const brightYellowTheme = Color.fromRGBO(255, 193, 7, 0.07);
   static const mainBlackColor = Color(0XFF231F20);
+  static const redColor = Colors.red;
 }

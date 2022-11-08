@@ -21,18 +21,36 @@ class LoginScreen extends ConsumerStatefulWidget {
 class _LoginScreenState extends ConsumerState<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
 
+  String userName = '';
+  String password = '';
+
   loginUser() async {
-    ref.read(isLoadingProvider.state).state = true;
-
-    try {
-      await AuthService.loginUser(userName: '', password: '');
-      Navigator.of(context)
-          .push(MaterialPageRoute(builder: (_) => const BottomNavBarWidget()));
-    } catch (e) {
-      ref.read(isLoadingProvider.state).state = false;
+    if (userName.isNotEmpty && password.isNotEmpty) {
+      try {
+        ref.read(isLoadingProvider.state).state = true;
+        await AuthService.loginUser(userName: '', password: '');
+        Navigator.of(context).push(
+            MaterialPageRoute(builder: (_) => const BottomNavBarWidget()));
+        ref.read(isLoadingProvider.state).state = false;
+      } catch (e) {
+        ref.read(isLoadingProvider.state).state = false;
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            backgroundColor: AppColor.redColor,
+            content: TextWidget(
+                fontWeight: FontWeight.w400,
+                color: AppColor.whiteColor,
+                fontSize: 16,
+                text: 'Oops! something went wrong, Try again')));
+      }
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          backgroundColor: AppColor.primaryColor,
+          content: TextWidget(
+              fontWeight: FontWeight.w400,
+              color: AppColor.whiteColor,
+              fontSize: 16,
+              text: 'Kindly fill all fields to login')));
     }
-
-    ref.read(isLoadingProvider.state).state = false;
   }
 
   @override
@@ -70,6 +88,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                           size: size,
                           onChanged: (val) {
                             _formKey.currentState!.validate();
+                            userName = val.trim();
                           },
                           validator: (val) {
                             var vv = RegExp(
@@ -91,6 +110,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         size: size,
                         onChanged: (val) {
                           _formKey.currentState!.validate();
+                          password = val.trim();
                         },
                         validator: (val) {
                           if (val!.isEmpty) {

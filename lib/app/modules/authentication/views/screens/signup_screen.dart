@@ -29,24 +29,50 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
 
   String name = ' ';
   addAccount() async {
-    ref.read(isLoadingProvider.state).state = true;
-
-    try {
-      await AuthService.addNewUser(
-          email: email,
-          firstName: name,
-          lastName: name,
-          userName: 'bh',
-          password: password,
-          address: 'ggg',
-          phoneNumber: 'jgj');
-      Navigator.of(context)
-          .push(MaterialPageRoute(builder: (_) => const BottomNavBarWidget()));
-    } catch (e) {
-      ref.read(isLoadingProvider.state).state = false;
+    if (name.isNotEmpty && email.isNotEmpty && password.isNotEmpty) {
+      if (ref.read(agreeProvider.state).state == false) {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            backgroundColor: AppColor.primaryColor,
+            content: TextWidget(
+                fontWeight: FontWeight.w400,
+                color: AppColor.whiteColor,
+                fontSize: 16,
+                text: 'Kindly accept our terms of service to proceed')));
+      } else {
+        try {
+          ref.read(isLoadingProvider.state).state = true;
+          await AuthService.addNewUser(
+              email: email,
+              firstName: name,
+              lastName: name,
+              userName: 'bh',
+              password: password,
+              address: 'ggg',
+              phoneNumber: 'jgj');
+          Navigator.of(context).push(
+              MaterialPageRoute(builder: (_) => const BottomNavBarWidget()));
+          ref.read(isLoadingProvider.state).state = false;
+        } catch (e) {
+          print(e);
+          ref.read(isLoadingProvider.state).state = false;
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+              backgroundColor: AppColor.redColor,
+              content: TextWidget(
+                  fontWeight: FontWeight.w400,
+                  color: AppColor.whiteColor,
+                  fontSize: 16,
+                  text: 'Oops! something went wrong, Try again')));
+        }
+      }
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          backgroundColor: AppColor.primaryColor,
+          content: TextWidget(
+              fontWeight: FontWeight.w400,
+              color: AppColor.whiteColor,
+              fontSize: 16,
+              text: 'Kindly fill all fields to signup')));
     }
-
-    ref.read(isLoadingProvider.state).state = false;
   }
 
   @override
@@ -90,10 +116,13 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                                 name = val.trim();
                               },
                               validator: (val) {
-                                if (val!.isEmpty) {
+                                var vv = RegExp('[^a-zA-Z]');
+                                bool inValid =
+                                    vv.hasMatch(val!.trim()) ? true : false;
+                                if (val.isEmpty) {
                                   return 'Required';
-                                } else if (val.length < 6) {
-                                  return 'Password must be greater than 6 characters';
+                                } else if (inValid) {
+                                  return 'Invalid name';
                                 }
                                 return null;
                               },

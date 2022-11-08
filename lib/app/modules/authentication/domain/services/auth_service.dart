@@ -17,37 +17,24 @@ class AuthService {
       // 'Content-Type': 'application/json',
       "Accept": "application/json",
     };
-    // Map<String, String> body = {
-    //   "email": email,
-    //   "firstname": firstName,
-    //   "lastname": lastName,
-    //   "username": userName,
-    //   "password": password,
-    //   "address": address,
-    //   "phone": phoneNumber
-    // };
-
-    String body =
-        '{"address":{"geolocation":{"lat":"40.12456","long":"20.5419"},"city":"miami","street":"avondale ave","number":345,"zipcode":"96378-0245"},"id":9,"email":"kate@gmail.com","username":"kate_h","password":"kfejk@*_","name":{"firstname":"kate","lastname":"hale"},"phone":"1-678-456-1934","__v":0}';
-
-    Map<String, dynamic> bodyVal = {
-      'email': 'John@gmail.com',
-      'username': 'johnd',
-      'password': 'm38rmF＄',
-      'name': {'firstname': 'John', 'lastname': 'Doe'},
+    Map<String, dynamic> body = {
+      'email': email,
+      'username': userName,
+      'password': password,
+      'name': {'firstname': firstName, 'lastname': lastName},
       address: {
-        'city': 'kilcoole',
-        'street': '7835 new road',
+        'city': address,
+        'street': address,
         'number': 3,
-        'zipcode': '12926-3874',
+        'zipcode': '',
         'geolocation': {'lat': '-37.3159', 'long': '81.1496'}
       },
-      'phone': '1-570-236-7033'
+      'phone': phoneNumber
     };
     final response = await http.post(
       Uri.parse(ApiUrl.addUserUrl),
       headers: headers,
-      body: bodyVal,
+      body: json.encode(body),
     );
 
     if (response.statusCode == 200 || response.statusCode == 201) {
@@ -70,17 +57,11 @@ class AuthService {
       // 'Content-Type': 'application/json',
       "Accept": "application/json",
     };
-    // Map<String, String> body = {
-    //   "email": email,
-    //   "firstname": firstName,
-    //   "lastname": lastName,
-    //   "username": userName,
-    //   "password": password,
-    //   "address": address,
-    //   "phone": phoneNumber
-    // };
 
-    String body = "{ 'username': 'kate_h','password': 'kfejk@*_'}";
+    Map<String, dynamic> body = {
+      'username': userName,
+      'password': password,
+    };
     final response = await http.post(
       Uri.parse(ApiUrl.addUserUrl),
       headers: headers,
