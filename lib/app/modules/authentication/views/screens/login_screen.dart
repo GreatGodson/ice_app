@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:iec_app/app/modules/authentication/domain/services/auth_service.dart';
 import 'package:iec_app/app/modules/authentication/views/screens/signup_screen.dart';
+import 'package:iec_app/app/modules/profile/data/user.dart';
 import 'package:iec_app/app/modules/wrapper/views/bottom_nav_bar.dart';
 import 'package:iec_app/app/shared/utils/theme/app_color.dart';
 import 'package:iec_app/app/shared/views/widgets/buttons/primary_button.dart';
@@ -20,12 +21,12 @@ class LoginScreen extends ConsumerStatefulWidget {
 
 class _LoginScreenState extends ConsumerState<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
-
   String userName = '';
   String password = '';
-
-  loginUser() async {
+  void loginUser() async {
     if (userName.isNotEmpty && password.isNotEmpty) {
+      mail = userName;
+      name = userName;
       try {
         ref.read(isLoadingProvider.state).state = true;
         await AuthService.loginUser(userName: '', password: '');

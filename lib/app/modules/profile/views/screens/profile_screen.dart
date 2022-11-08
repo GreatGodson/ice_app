@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:iec_app/app/modules/profile/data/user.dart';
 
 import 'package:iec_app/app/shared/utils/theme/app_color.dart';
 import 'package:iec_app/app/shared/views/widgets/cards/profile_card.dart';
@@ -38,16 +39,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
               )
             ],
           ),
-          const TextWidget(
+          TextWidget(
               fontWeight: FontWeight.w500,
               color: AppColor.blackColor,
               fontSize: 24,
-              text: 'Godson Okezie'),
-          const TextWidget(
+              text: name),
+          TextWidget(
               fontWeight: FontWeight.w400,
               color: AppColor.brightTextColor,
               fontSize: 16,
-              text: 'greatgodsonokezie@yahoo.com'),
+              text: mail),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: const [

@@ -53,8 +53,7 @@ class LocationManager {
     final address2 = placeMarks[0].locality;
     final address3 = placeMarks[0].country;
 
-    final userAddressValue =
-        '${address1.toString()}, ${address2.toString()},${address3.toString()}';
+    final userAddressValue = '${address1.toString()}, ${address2.toString()}';
     print(userAddressValue);
     return userAddressValue;
   }

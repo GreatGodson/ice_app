@@ -7,11 +7,31 @@ import 'package:iec_app/app/modules/category/views/screens/category_products.dar
 import 'package:iec_app/app/modules/location/domain/providers/location_provider.dart';
 import 'package:iec_app/app/modules/product/data/models/get_all_product_model.dart';
 import 'package:iec_app/app/modules/product/domain/providers/produts_provider.dart';
+import 'package:iec_app/app/modules/product/views/screens/all_products_screen.dart';
 import 'package:iec_app/app/modules/product/views/screens/product_detail_screen.dart';
 import 'package:iec_app/app/shared/managers/location_manager.dart';
 import 'package:iec_app/app/shared/utils/theme/app_color.dart';
 import 'package:iec_app/app/shared/views/widgets/custom_text_widget.dart';
 import 'package:iec_app/app/shared/views/widgets/text_field/search_textfield.dart';
+
+List<ProductCategories> categories = [
+  ProductCategories(
+      categoryName: 'women\'s clothing',
+      categoryImageName:
+          'https://fakestoreapi.com/img/51Y5NI-I5jL._AC_UX679_.jpg'),
+  ProductCategories(
+      categoryName: 'men\'s clothing',
+      categoryImageName:
+          'https://fakestoreapi.com/img/71YXzeOuslL._AC_UY879_.jpg'),
+  ProductCategories(
+      categoryName: 'jewelery',
+      categoryImageName:
+          'https://fakestoreapi.com/img/71YAIFU48IL._AC_UL640_QL65_ML3_.jpg'),
+  ProductCategories(
+      categoryName: 'electronics',
+      categoryImageName:
+          'https://fakestoreapi.com/img/81QpkIctqPL._AC_SX679_.jpg')
+];
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -21,25 +41,6 @@ class HomeScreen extends ConsumerStatefulWidget {
 }
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
-  List<ProductCategories> categories = [
-    ProductCategories(
-        categoryName: 'women\'s clothing',
-        categoryImageName:
-            'https://fakestoreapi.com/img/51Y5NI-I5jL._AC_UX679_.jpg'),
-    ProductCategories(
-        categoryName: 'men\'s clothing',
-        categoryImageName:
-            'https://fakestoreapi.com/img/71YXzeOuslL._AC_UY879_.jpg'),
-    ProductCategories(
-        categoryName: 'jewelery',
-        categoryImageName:
-            'https://fakestoreapi.com/img/71YAIFU48IL._AC_UL640_QL65_ML3_.jpg'),
-    ProductCategories(
-        categoryName: 'electronics',
-        categoryImageName:
-            'https://fakestoreapi.com/img/81QpkIctqPL._AC_SX679_.jpg')
-  ];
-
   // @override
   // void initState() {
   //   LocationManager.setLocationName(context);
@@ -74,16 +75,13 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               ),
               location.when(
                   data: (userLocation) {
-                    return Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 10),
-                        child: TextWidget(
-                            fontWeight: FontWeight.w400,
-                            color: AppColor.blackColor,
-                            fontSize: 14,
-                            textAlign: TextAlign.center,
-                            text: userLocation),
-                      ),
+                    return Padding(
+                      padding: const EdgeInsets.only(left: 10),
+                      child: TextWidget(
+                          fontWeight: FontWeight.w400,
+                          color: AppColor.blackColor,
+                          fontSize: 14,
+                          text: userLocation),
                     );
                   },
                   error: (error, stack) {
@@ -204,17 +202,23 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               padding: const EdgeInsets.only(right: 20, bottom: 17),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: const [
-                  TextWidget(
+                children: [
+                  const TextWidget(
                       fontWeight: FontWeight.w500,
                       color: AppColor.blackColor,
                       fontSize: 20,
                       text: 'All Products'),
-                  TextWidget(
-                      fontWeight: FontWeight.w400,
-                      color: AppColor.brightTextColor,
-                      fontSize: 14,
-                      text: 'See All')
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (_) => const AllProductsScreen()));
+                    },
+                    child: const TextWidget(
+                        fontWeight: FontWeight.w400,
+                        color: AppColor.brightTextColor,
+                        fontSize: 14,
+                        text: 'See All'),
+                  )
                 ],
               ),
             ),

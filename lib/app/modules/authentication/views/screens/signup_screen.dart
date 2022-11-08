@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:iec_app/app/modules/authentication/domain/services/auth_service.dart';
+import 'package:iec_app/app/modules/profile/data/user.dart';
 import 'package:iec_app/app/modules/wrapper/views/bottom_nav_bar.dart';
 import 'package:iec_app/app/shared/utils/theme/app_color.dart';
 import 'package:iec_app/app/shared/views/widgets/buttons/primary_button.dart';
@@ -21,15 +22,12 @@ class SignUpScreen extends ConsumerStatefulWidget {
 
 class _SignUpScreenState extends ConsumerState<SignUpScreen> {
   final _formKey = GlobalKey<FormState>();
-
   final agreeProvider = StateProvider((ref) => false);
-
   String email = '';
   String password = '';
-
-  String name = ' ';
-  addAccount() async {
-    if (name.isNotEmpty && email.isNotEmpty && password.isNotEmpty) {
+  String firstName = ' ';
+  void addAccount() async {
+    if (firstName.isNotEmpty && email.isNotEmpty && password.isNotEmpty) {
       if (ref.read(agreeProvider.state).state == false) {
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
             backgroundColor: AppColor.primaryColor,
@@ -41,10 +39,13 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
       } else {
         try {
           ref.read(isLoadingProvider.state).state = true;
+          name = firstName;
+          mail = email;
+
           await AuthService.addNewUser(
               email: email,
-              firstName: name,
-              lastName: name,
+              firstName: firstName,
+              lastName: firstName,
               userName: 'bh',
               password: password,
               address: 'ggg',
@@ -113,7 +114,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                               size: size,
                               onChanged: (val) {
                                 _formKey.currentState!.validate();
-                                name = val.trim();
+                                firstName = val.trim();
                               },
                               validator: (val) {
                                 var vv = RegExp('[^a-zA-Z]');
