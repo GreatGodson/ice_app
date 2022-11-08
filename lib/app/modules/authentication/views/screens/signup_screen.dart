@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:iec_app/app/modules/authentication/domain/services/auth_service.dart';
 import 'package:iec_app/app/modules/wrapper/views/bottom_nav_bar.dart';
 import 'package:iec_app/app/shared/utils/theme/app_color.dart';
 import 'package:iec_app/app/shared/views/widgets/buttons/primary_button.dart';
@@ -8,6 +9,8 @@ import 'package:iec_app/app/shared/views/widgets/custom_divider.dart';
 import 'package:iec_app/app/shared/views/widgets/buttons/facebook_google_button.dart';
 import 'package:iec_app/app/shared/views/widgets/custom_text_widget.dart';
 import 'package:iec_app/app/shared/views/widgets/text_field/text_field.dart';
+
+final isLoadingProvider = StateProvider((ref) => false);
 
 class SignUpScreen extends ConsumerStatefulWidget {
   const SignUpScreen({Key? key}) : super(key: key);
@@ -20,6 +23,32 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
   final _formKey = GlobalKey<FormState>();
 
   final agreeProvider = StateProvider((ref) => false);
+
+  String email = '';
+  String password = '';
+
+  String name = ' ';
+  addAccount() async {
+    ref.read(isLoadingProvider.state).state = true;
+
+    try {
+      await AuthService.addNewUser(
+          email: email,
+          firstName: name,
+          lastName: name,
+          userName: 'bh',
+          password: password,
+          address: 'ggg',
+          phoneNumber: 'jgj');
+      Navigator.of(context)
+          .push(MaterialPageRoute(builder: (_) => const BottomNavBarWidget()));
+    } catch (e) {
+      ref.read(isLoadingProvider.state).state = false;
+    }
+
+    ref.read(isLoadingProvider.state).state = false;
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -58,6 +87,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                               size: size,
                               onChanged: (val) {
                                 _formKey.currentState!.validate();
+                                name = val.trim();
                               },
                               validator: (val) {
                                 if (val!.isEmpty) {
@@ -77,6 +107,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                               size: size,
                               onChanged: (val) {
                                 _formKey.currentState!.validate();
+                                email = val.trim();
                               },
                               validator: (val) {
                                 var vv = RegExp(
@@ -98,6 +129,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                             size: size,
                             onChanged: (val) {
                               _formKey.currentState!.validate();
+                              password = val.trim();
                             },
                             validator: (val) {
                               if (val!.isEmpty) {
@@ -148,10 +180,12 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                       )),
                 ),
                 PrimaryButton(
+                  isLoading: ref.watch(isLoadingProvider.state).state,
                   title: 'Sign up',
                   onPressed: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (_) => const BottomNavBarWidget()));
+                    addAccount();
+                    // Navigator.of(context).push(MaterialPageRoute(
+                    //     builder: (_) => const BottomNavBarWidget()));
                   },
                 ),
                 Padding(

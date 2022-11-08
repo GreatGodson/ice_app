@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:iec_app/app/modules/cart/domain/services/cart_service.dart';
 import 'package:iec_app/app/modules/cart/views/screens/cart_screen.dart';
 import 'package:iec_app/app/shared/utils/theme/app_color.dart';
 import 'package:iec_app/app/shared/views/widgets/buttons/primary_button.dart';
@@ -118,10 +119,12 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     Padding(
                       padding: const EdgeInsets.only(top: 5),
                       child: PrimaryButton(
+                          isLoading: false,
                           title: 'Add to Cart',
-                          onPressed: () {
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => const CartScreen()));
+                          onPressed: () async {
+                            await CartService.addToCart();
+                            // Navigator.of(context).push(MaterialPageRoute(
+                            //     builder: (context) => const CartScreen()));
                           }),
                     )
                   ],

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:iec_app/app/modules/authentication/domain/services/auth_service.dart';
 import 'package:iec_app/app/modules/authentication/views/screens/signup_screen.dart';
+import 'package:iec_app/app/modules/wrapper/views/bottom_nav_bar.dart';
 import 'package:iec_app/app/shared/utils/theme/app_color.dart';
 import 'package:iec_app/app/shared/views/widgets/buttons/primary_button.dart';
 import 'package:iec_app/app/shared/views/widgets/custom_divider.dart';
@@ -8,15 +11,29 @@ import 'package:iec_app/app/shared/views/widgets/buttons/facebook_google_button.
 import 'package:iec_app/app/shared/views/widgets/custom_text_widget.dart';
 import 'package:iec_app/app/shared/views/widgets/text_field/text_field.dart';
 
-class LoginScreen extends StatefulWidget {
+class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  ConsumerState<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _LoginScreenState extends ConsumerState<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
+
+  loginUser() async {
+    ref.read(isLoadingProvider.state).state = true;
+
+    try {
+      await AuthService.loginUser(userName: '', password: '');
+      Navigator.of(context)
+          .push(MaterialPageRoute(builder: (_) => const BottomNavBarWidget()));
+    } catch (e) {
+      ref.read(isLoadingProvider.state).state = false;
+    }
+
+    ref.read(isLoadingProvider.state).state = false;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -95,8 +112,11 @@ class _LoginScreenState extends State<LoginScreen> {
                     ],
                   )),
               PrimaryButton(
+                isLoading: ref.watch(isLoadingProvider.state).state,
                 title: 'Log in',
-                onPressed: () {},
+                onPressed: () {
+                  loginUser();
+                },
               ),
               Expanded(
                 child: Row(

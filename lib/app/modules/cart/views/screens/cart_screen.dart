@@ -22,6 +22,7 @@ class _CartScreenState extends State<CartScreen> {
         child: Padding(
           padding: const EdgeInsets.only(left: 50, right: 50),
           child: PrimaryButton(
+            isLoading: false,
             title: 'Checkout',
             onPressed: () {},
           ),
