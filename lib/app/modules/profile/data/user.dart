@@ -1,3 +1,5 @@
-late String name;
-late String mail;
+late String cachedName;
+late String cachedMail;
+late String cachedPassword;
 late String address;
+String? devToken;

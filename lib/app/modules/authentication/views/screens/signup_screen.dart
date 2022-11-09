@@ -4,6 +4,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:iec_app/app/modules/authentication/domain/services/auth_service.dart';
 import 'package:iec_app/app/modules/profile/data/user.dart';
 import 'package:iec_app/app/modules/wrapper/views/bottom_nav_bar.dart';
+import 'package:iec_app/app/shared/helpers/device/device_info.dart';
+import 'package:iec_app/app/shared/helpers/preferences/preferences.dart';
 import 'package:iec_app/app/shared/utils/theme/app_color.dart';
 import 'package:iec_app/app/shared/views/widgets/buttons/primary_button.dart';
 import 'package:iec_app/app/shared/views/widgets/custom_divider.dart';
@@ -39,8 +41,20 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
       } else {
         try {
           ref.read(isLoadingProvider.state).state = true;
-          name = firstName;
-          mail = email;
+
+          final deviceToken = await DeviceHelper.initPlatformState();
+
+          await Preferences.setString(key: 'name', value: firstName);
+          await Preferences.setString(key: 'mail', value: email);
+          await Preferences.setString(key: 'password', value: password);
+          await Preferences.setString(key: 'token', value: deviceToken);
+
+          cachedName = Preferences.getString('name') ?? '';
+          cachedMail = Preferences.getString('mail') ?? '';
+          cachedPassword = Preferences.getString('password') ?? '';
+          devToken = Preferences.getString('token');
+
+          // Preferences.getString('password');
 
           await AuthService.addNewUser(
               email: email,

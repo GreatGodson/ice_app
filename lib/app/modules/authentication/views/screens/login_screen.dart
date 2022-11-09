@@ -5,6 +5,7 @@ import 'package:iec_app/app/modules/authentication/domain/services/auth_service.
 import 'package:iec_app/app/modules/authentication/views/screens/signup_screen.dart';
 import 'package:iec_app/app/modules/profile/data/user.dart';
 import 'package:iec_app/app/modules/wrapper/views/bottom_nav_bar.dart';
+import 'package:iec_app/app/shared/helpers/device/device_info.dart';
 import 'package:iec_app/app/shared/utils/theme/app_color.dart';
 import 'package:iec_app/app/shared/views/widgets/buttons/primary_button.dart';
 import 'package:iec_app/app/shared/views/widgets/custom_divider.dart';
@@ -21,27 +22,46 @@ class LoginScreen extends ConsumerStatefulWidget {
 
 class _LoginScreenState extends ConsumerState<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
-  String userName = '';
+  String email = '';
   String password = '';
   void loginUser() async {
-    if (userName.isNotEmpty && password.isNotEmpty) {
-      mail = userName;
-      name = userName;
-      try {
-        ref.read(isLoadingProvider.state).state = true;
-        await AuthService.loginUser(userName: '', password: '');
-        Navigator.of(context).push(
-            MaterialPageRoute(builder: (_) => const BottomNavBarWidget()));
-        ref.read(isLoadingProvider.state).state = false;
-      } catch (e) {
-        ref.read(isLoadingProvider.state).state = false;
+    if (email.isNotEmpty && password.isNotEmpty) {
+      final deviceToken = await DeviceHelper.initPlatformState();
+      if (deviceToken != devToken) {
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-            backgroundColor: AppColor.redColor,
+            backgroundColor: AppColor.primaryColor,
             content: TextWidget(
                 fontWeight: FontWeight.w400,
                 color: AppColor.whiteColor,
                 fontSize: 16,
-                text: 'Oops! something went wrong, Try again')));
+                text: 'Unable to login multiple accounts on this device')));
+      } else {
+        if (email != cachedMail || password != cachedPassword) {
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+              backgroundColor: AppColor.redColor,
+              content: TextWidget(
+                  fontWeight: FontWeight.w400,
+                  color: AppColor.whiteColor,
+                  fontSize: 16,
+                  text: 'Invalid login credentials, try again')));
+        } else {
+          try {
+            ref.read(isLoadingProvider.state).state = true;
+            await AuthService.loginUser(userName: '', password: '');
+            Navigator.of(context).push(
+                MaterialPageRoute(builder: (_) => const BottomNavBarWidget()));
+            ref.read(isLoadingProvider.state).state = false;
+          } catch (e) {
+            ref.read(isLoadingProvider.state).state = false;
+            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                backgroundColor: AppColor.redColor,
+                content: TextWidget(
+                    fontWeight: FontWeight.w400,
+                    color: AppColor.whiteColor,
+                    fontSize: 16,
+                    text: 'Oops! something went wrong, Try again')));
+          }
+        }
       }
     } else {
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
@@ -89,7 +109,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                           size: size,
                           onChanged: (val) {
                             _formKey.currentState!.validate();
-                            userName = val.trim();
+                            email = val.trim();
                           },
                           validator: (val) {
                             var vv = RegExp(

@@ -24,11 +24,11 @@ class ProfileDetailsCard extends ConsumerWidget {
         children: [
           ProfileDetailListTile(
             title: 'Name :',
-            value: name,
+            value: cachedName,
           ),
           ProfileDetailListTile(
             title: 'Email :',
-            value: mail,
+            value: cachedMail,
           ),
           location.when(
               data: (locationData) {

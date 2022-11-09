@@ -43,12 +43,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
               fontWeight: FontWeight.w500,
               color: AppColor.blackColor,
               fontSize: 24,
-              text: name),
+              text: cachedName),
           TextWidget(
               fontWeight: FontWeight.w400,
               color: AppColor.brightTextColor,
               fontSize: 16,
-              text: mail),
+              text: cachedMail),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: const [
