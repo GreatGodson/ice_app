@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:iec_app/app/modules/authentication/domain/services/auth_service.dart';
+import 'package:iec_app/app/modules/authentication/views/screens/login_screen.dart';
 import 'package:iec_app/app/modules/home/views/screens/home_screen.dart';
 import 'package:iec_app/app/modules/profile/data/user.dart';
 import 'package:iec_app/app/modules/wrapper/views/bottom_nav_bar.dart';
@@ -157,6 +158,47 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                             ),
                           ),
                           ValidatorTextForm(
+                            obscureText:
+                                ref.watch(obscureTextProvider.state).state,
+                            suffixIcon: ref
+                                    .watch(obscureTextProvider.state)
+                                    .state
+                                ? IconButton(
+                                    color: AppColor.primaryColor,
+                                    onPressed: () {
+                                      ref
+                                              .read(obscureTextProvider.state)
+                                              .state =
+                                          !ref
+                                              .read(obscureTextProvider.state)
+                                              .state;
+                                    },
+                                    icon: const Padding(
+                                      padding:
+                                          EdgeInsets.only(top: 10, left: 5),
+                                      child: Icon(
+                                        Icons.visibility_off,
+                                        size: 18,
+                                      ),
+                                    ))
+                                : IconButton(
+                                    color: AppColor.primaryColor,
+                                    onPressed: () {
+                                      ref
+                                              .read(obscureTextProvider.state)
+                                              .state =
+                                          !ref
+                                              .read(obscureTextProvider.state)
+                                              .state;
+                                    },
+                                    icon: const Padding(
+                                      padding:
+                                          EdgeInsets.only(top: 10, left: 5),
+                                      child: Icon(
+                                        Icons.visibility,
+                                        size: 18,
+                                      ),
+                                    )),
                             prefixIconName: 'password',
                             hintText: 'Password',
                             size: size,

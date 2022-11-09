@@ -4,18 +4,20 @@ import 'package:iec_app/app/shared/utils/styles/text_styles.dart';
 import 'package:iec_app/app/shared/utils/theme/app_color.dart';
 
 class ValidatorTextForm extends StatelessWidget {
-  const ValidatorTextForm({
-    Key? key,
-    required this.size,
-    required this.onChanged,
-    this.autofocus,
-    this.borderColor,
-    this.initialValue,
-    this.hintText,
-    this.textInputType,
-    required this.validator,
-    required this.prefixIconName,
-  }) : super(key: key);
+  const ValidatorTextForm(
+      {Key? key,
+      required this.size,
+      required this.onChanged,
+      this.autofocus,
+      this.borderColor,
+      this.initialValue,
+      this.hintText,
+      this.textInputType,
+      required this.validator,
+      required this.prefixIconName,
+      this.suffixIcon,
+      this.obscureText})
+      : super(key: key);
   final Size size;
   final Function(String) onChanged;
   final bool? autofocus;
@@ -26,6 +28,9 @@ class ValidatorTextForm extends StatelessWidget {
   final String? Function(String?)? validator;
   final String prefixIconName;
 
+  final Widget? suffixIcon;
+  final bool? obscureText;
+
   @override
   Widget build(BuildContext context) {
     return TextFormField(
@@ -34,6 +39,7 @@ class ValidatorTextForm extends StatelessWidget {
       keyboardType: textInputType ?? TextInputType.text,
       autofocus: autofocus ?? false,
       style: textFormTextStyle,
+      obscureText: obscureText ?? false,
       onChanged: onChanged,
       initialValue: initialValue ?? '',
       cursorColor: AppColor.blackColor,
@@ -51,6 +57,7 @@ class ValidatorTextForm extends StatelessWidget {
             borderSide: const BorderSide(color: AppColor.primaryColor),
           ),
           prefixStyle: textFormTextStyle,
+          suffixIcon: suffixIcon ?? const SizedBox.shrink(),
           prefixIcon: Padding(
             padding:
                 const EdgeInsets.only(left: 8, right: 9, top: 6, bottom: 6),
@@ -75,16 +82,18 @@ class ValidatorTextForm extends StatelessWidget {
 }
 
 class CustomTextField extends StatelessWidget {
-  const CustomTextField({
-    Key? key,
-    required this.size,
-    required this.onChanged,
-    this.autofocus,
-    this.borderColor,
-    this.initialValue,
-    this.hintText,
-    this.textInputType,
-  }) : super(key: key);
+  const CustomTextField(
+      {Key? key,
+      required this.size,
+      required this.onChanged,
+      this.autofocus,
+      this.borderColor,
+      this.initialValue,
+      this.hintText,
+      this.textInputType,
+      this.suffixIcon,
+      this.obscureText})
+      : super(key: key);
 
   final Size size;
   final Function(String) onChanged;
@@ -93,10 +102,14 @@ class CustomTextField extends StatelessWidget {
   final String? initialValue;
   final String? hintText;
   final TextInputType? textInputType;
+  final bool? obscureText;
+
+  final Widget? suffixIcon;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      obscureText: obscureText ?? false,
       maxLines: 1,
       keyboardType: textInputType ?? TextInputType.text,
       autofocus: autofocus ?? false,
@@ -118,6 +131,7 @@ class CustomTextField extends StatelessWidget {
           borderSide: const BorderSide(color: AppColor.primaryColor),
         ),
         prefixStyle: textFormTextStyle,
+        suffixIcon: suffixIcon ?? const SizedBox.shrink(),
       ),
     );
   }

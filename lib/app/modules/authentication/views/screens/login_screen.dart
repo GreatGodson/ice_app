@@ -13,6 +13,8 @@ import 'package:iec_app/app/shared/views/widgets/buttons/facebook_google_button.
 import 'package:iec_app/app/shared/views/widgets/custom_text_widget.dart';
 import 'package:iec_app/app/shared/views/widgets/text_field/text_field.dart';
 
+final obscureTextProvider = StateProvider((ref) => true);
+
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
 
@@ -126,8 +128,40 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         ),
                       ),
                       ValidatorTextForm(
+                        obscureText: ref.watch(obscureTextProvider),
                         prefixIconName: 'password',
                         hintText: 'Password',
+                        suffixIcon: ref.watch(obscureTextProvider.state).state
+                            ? IconButton(
+                                color: AppColor.primaryColor,
+                                onPressed: () {
+                                  ref.read(obscureTextProvider.state).state =
+                                      !ref
+                                          .read(obscureTextProvider.state)
+                                          .state;
+                                },
+                                icon: const Padding(
+                                  padding: EdgeInsets.only(top: 10, left: 5),
+                                  child: Icon(
+                                    Icons.visibility_off,
+                                    size: 18,
+                                  ),
+                                ))
+                            : IconButton(
+                                color: AppColor.primaryColor,
+                                onPressed: () {
+                                  ref.read(obscureTextProvider.state).state =
+                                      !ref
+                                          .read(obscureTextProvider.state)
+                                          .state;
+                                },
+                                icon: const Padding(
+                                  padding: EdgeInsets.only(top: 10, left: 5),
+                                  child: Icon(
+                                    Icons.visibility,
+                                    size: 18,
+                                  ),
+                                )),
                         size: size,
                         onChanged: (val) {
                           _formKey.currentState!.validate();
