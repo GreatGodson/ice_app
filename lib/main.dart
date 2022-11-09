@@ -16,6 +16,7 @@ void main() async {
   cachedMail = Preferences.getString('mail') ?? '';
   cachedPassword = Preferences.getString('password') ?? '';
   devToken = Preferences.getString('token');
+  cachedCart = Preferences.getStringList('cachedCartList') ?? [];
 
   runApp(const ProviderScope(child: MyApp()));
 }

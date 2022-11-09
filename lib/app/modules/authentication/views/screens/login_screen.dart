@@ -27,7 +27,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   void loginUser() async {
     if (email.isNotEmpty && password.isNotEmpty) {
       final deviceToken = await DeviceHelper.initPlatformState();
-      if (deviceToken != devToken) {
+      if (devToken != null && deviceToken != devToken) {
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
             backgroundColor: AppColor.primaryColor,
             content: TextWidget(

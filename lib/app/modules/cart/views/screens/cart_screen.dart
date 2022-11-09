@@ -1,11 +1,16 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:iec_app/app/modules/cart/domain/providers/cart_provider.dart';
+import 'package:iec_app/app/modules/profile/data/user.dart';
 import 'package:iec_app/app/shared/utils/theme/app_color.dart';
 import 'package:iec_app/app/shared/views/widgets/buttons/primary_button.dart';
 import 'package:iec_app/app/shared/views/widgets/custom_text_widget.dart';
+
+final subTotalProvider = StateProvider((ref) => '');
 
 class CartScreen extends ConsumerStatefulWidget {
   const CartScreen({Key? key}) : super(key: key);
@@ -19,16 +24,22 @@ class _CartScreenState extends ConsumerState<CartScreen> {
   Widget build(BuildContext context) {
     final cart = ref.watch(userCart('5'));
     Size size = MediaQuery.of(context).size;
+
     return Scaffold(
-        bottomNavigationBar: BottomAppBar(
-          color: AppColor.scaffoldBackgroundColor,
-          elevation: 0.0,
-          child: Padding(
-            padding: const EdgeInsets.only(left: 50, right: 50),
-            child: PrimaryButton(
-              isLoading: false,
-              title: 'Checkout',
-              onPressed: () {},
+        bottomNavigationBar: Padding(
+          padding: const EdgeInsets.only(bottom: 12),
+          child: BottomAppBar(
+            color: AppColor.scaffoldBackgroundColor,
+            elevation: 0.0,
+            child: Padding(
+              padding: const EdgeInsets.only(left: 50, right: 50),
+              child: PrimaryButton(
+                isLoading: false,
+                title: 'Checkout',
+                onPressed: () {
+                  print(cachedCart.length);
+                },
+              ),
             ),
           ),
         ),
@@ -52,8 +63,15 @@ class _CartScreenState extends ConsumerState<CartScreen> {
                   children: [
                     Expanded(
                       child: ListView.builder(
-                        itemCount: cartData['products'].length,
+                        // itemCount: cartData['products'].length,
+                        itemCount: cachedCart.length,
                         itemBuilder: (context, index) {
+                          final userCart = json.decode(cachedCart[index]);
+                          int quantity = userCart['data']['productQuantity'];
+                          WidgetsBinding.instance.addPostFrameCallback((_) {
+                            ref.read(subTotalProvider.state).state =
+                                '＄${userCart['data']['productPrice']}';
+                          });
                           return Padding(
                             padding: const EdgeInsets.only(top: 13),
                             child: Container(
@@ -93,28 +111,46 @@ class _CartScreenState extends ConsumerState<CartScreen> {
                                           ],
                                         ),
                                       ),
-                                      Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: const [
-                                          TextWidget(
-                                              fontWeight: FontWeight.w400,
-                                              color: AppColor.brightTextColor,
-                                              fontSize: 14,
-                                              text: 'Henly shirts'),
-                                          TextWidget(
-                                              fontWeight: FontWeight.w500,
-                                              color: AppColor.blackColor,
-                                              fontSize: 16,
-                                              text: '500'),
-                                        ],
+                                      Expanded(
+                                        child: Padding(
+                                          padding:
+                                              const EdgeInsets.only(left: 15),
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceEvenly,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              // TextWidget(
+                                              //     fontWeight: FontWeight.w400,
+                                              //     color: AppColor.brightTextColor,
+                                              //     fontSize: 14,
+                                              //     text: 'Henly shirts'),
+                                              TextWidget(
+                                                  fontWeight: FontWeight.w400,
+                                                  color:
+                                                      AppColor.brightTextColor,
+                                                  fontSize: 14,
+                                                  text: userCart['data']
+                                                      ['productName']),
+                                              TextWidget(
+                                                  fontWeight: FontWeight.w500,
+                                                  color: AppColor.blackColor,
+                                                  fontSize: 16,
+                                                  text:
+                                                      '＄${userCart['data']['productPrice']}'),
+                                            ],
+                                          ),
+                                        ),
                                       ),
                                       Row(
                                         children: [
                                           IconButton(
-                                              onPressed: () {},
+                                              onPressed: () {
+                                                setState(() {
+                                                  quantity + 1;
+                                                });
+                                              },
                                               icon: Container(
                                                 height: 21.48,
                                                 width: 26,
@@ -130,13 +166,17 @@ class _CartScreenState extends ConsumerState<CartScreen> {
                                                   size: 16,
                                                 ),
                                               )),
-                                          const TextWidget(
+                                          TextWidget(
                                               fontWeight: FontWeight.w400,
                                               color: AppColor.blackColor,
                                               fontSize: 14,
-                                              text: '1'),
+                                              text: quantity.toString()),
                                           IconButton(
-                                              onPressed: () {},
+                                              onPressed: () {
+                                                setState(() {
+                                                  quantity - 1;
+                                                });
+                                              },
                                               icon: Container(
                                                 height: 21.48,
                                                 width: 26,
@@ -165,8 +205,8 @@ class _CartScreenState extends ConsumerState<CartScreen> {
                       padding: const EdgeInsets.only(bottom: 30),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: const [
-                          TextWidget(
+                        children: [
+                          const TextWidget(
                               fontWeight: FontWeight.w400,
                               color: AppColor.blackColor,
                               fontSize: 14,
@@ -175,7 +215,7 @@ class _CartScreenState extends ConsumerState<CartScreen> {
                               fontWeight: FontWeight.w500,
                               color: AppColor.subTotalColor,
                               fontSize: 18,
-                              text: '400'),
+                              text: ref.watch(subTotalProvider.state).state),
                         ],
                       ),
                     ),

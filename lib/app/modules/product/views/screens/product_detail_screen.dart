@@ -1,8 +1,12 @@
+import 'dart:convert';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:iec_app/app/modules/cart/domain/services/cart_service.dart';
 import 'package:iec_app/app/modules/cart/views/screens/cart_screen.dart';
+import 'package:iec_app/app/modules/profile/data/user.dart';
+import 'package:iec_app/app/shared/helpers/preferences/preferences.dart';
 import 'package:iec_app/app/shared/utils/theme/app_color.dart';
 import 'package:iec_app/app/shared/views/widgets/buttons/primary_button.dart';
 import 'package:iec_app/app/shared/views/widgets/custom_text_widget.dart';
@@ -122,9 +126,30 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                           isLoading: false,
                           title: 'Add to Cart',
                           onPressed: () async {
+                            Map<String, dynamic> cartData = {
+                              'data': {
+                                'productName': widget.productName,
+                                'productPrice': widget.productPrice,
+                                'productImage': widget.productImageUrl,
+                                'productQuantity': 1,
+                              }
+                            };
+
+                            String carted = json.encode(cartData);
+                            final newCart = [carted];
+
+                            // cachedCart.add(carted);
+
+                            await Preferences.setStringList(
+                                key: 'cachedCartList', value: newCart);
+
+                            cachedCart =
+                                Preferences.getStringList('cachedCartList') ??
+                                    [];
+
                             await CartService.addToCart();
-                            // Navigator.of(context).push(MaterialPageRoute(
-                            //     builder: (context) => const CartScreen()));
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => const CartScreen()));
                           }),
                     )
                   ],

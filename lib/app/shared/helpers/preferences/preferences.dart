@@ -49,4 +49,13 @@ class Preferences {
   static Future<void> remove(String key) async {
     await preferences.remove(key);
   }
+
+  static Future<bool> setStringList(
+      {required String key, required List<String> value}) {
+    return preferences.setStringList(key, value);
+  }
+
+  static List<String>? getStringList(String key) {
+    return preferences.getStringList(key);
+  }
 }
