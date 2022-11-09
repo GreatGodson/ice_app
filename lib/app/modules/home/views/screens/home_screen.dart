@@ -9,11 +9,15 @@ import 'package:iec_app/app/modules/product/data/models/get_all_product_model.da
 import 'package:iec_app/app/modules/product/domain/providers/produts_provider.dart';
 import 'package:iec_app/app/modules/product/views/screens/all_products_screen.dart';
 import 'package:iec_app/app/modules/product/views/screens/product_detail_screen.dart';
+import 'package:iec_app/app/modules/profile/data/user.dart';
 import 'package:iec_app/app/shared/managers/location_manager.dart';
 import 'package:iec_app/app/shared/utils/theme/app_color.dart';
 import 'package:iec_app/app/shared/views/widgets/custom_text_widget.dart';
+import 'package:iec_app/app/shared/views/widgets/drawer/custom_drawer.dart';
 import 'package:iec_app/app/shared/views/widgets/text_field/search_textfield.dart';
 
+final userNameProvider = StateProvider((ref) => '');
+final userMailProvider = StateProvider((ref) => '');
 List<ProductCategories> categories = [
   ProductCategories(
       categoryName: 'women\'s clothing',
@@ -41,19 +45,18 @@ class HomeScreen extends ConsumerStatefulWidget {
 }
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
-  // @override
-  // void initState() {
-  //   LocationManager.setLocationName(context);
-  //   super.initState();
-  // }
-
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     final allProducts = ref.watch(getAllProductsRepository);
     final location = ref.watch(locationRepository(context));
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref.read(userNameProvider.state).state = cachedName;
+      ref.read(userMailProvider.state).state = cachedMail;
+    });
     return Scaffold(
         backgroundColor: AppColor.scaffoldBackgroundColor,
+        drawer: CustomDrawer(),
         appBar: AppBar(
           centerTitle: true,
           backgroundColor: AppColor.scaffoldBackgroundColor,
@@ -98,13 +101,20 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   loading: () => const SizedBox.shrink())
             ],
           ),
-          leading: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SvgPicture.asset(
-                'assets/svgs/drawerIcon.svg',
+          leading: Builder(
+            builder: (BuildContext context) => GestureDetector(
+              onTap: () {
+                Scaffold.of(context).openDrawer();
+              },
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SvgPicture.asset(
+                    'assets/svgs/drawerIcon.svg',
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
         ),
         body: ListView(

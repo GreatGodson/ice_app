@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -25,6 +26,8 @@ class _CartScreenState extends ConsumerState<CartScreen> {
     final cart = ref.watch(userCart('5'));
     Size size = MediaQuery.of(context).size;
 
+    final quantityProvider = StateProvider((ref) => 1);
+
     return Scaffold(
         bottomNavigationBar: Padding(
           padding: const EdgeInsets.only(bottom: 12),
@@ -37,7 +40,14 @@ class _CartScreenState extends ConsumerState<CartScreen> {
                 isLoading: false,
                 title: 'Checkout',
                 onPressed: () {
-                  print(cachedCart.length);
+                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                    backgroundColor: AppColor.primaryColor,
+                    content: TextWidget(
+                        fontWeight: FontWeight.w400,
+                        color: AppColor.whiteColor,
+                        fontSize: 16,
+                        text: 'No checkout feature'),
+                  ));
                 },
               ),
             ),
@@ -67,7 +77,7 @@ class _CartScreenState extends ConsumerState<CartScreen> {
                         itemCount: cachedCart.length,
                         itemBuilder: (context, index) {
                           final userCart = json.decode(cachedCart[index]);
-                          int quantity = userCart['data']['productQuantity'];
+                          // int quantity = userCart['data']['productQuantity'];
                           WidgetsBinding.instance.addPostFrameCallback((_) {
                             ref.read(subTotalProvider.state).state =
                                 '＄${userCart['data']['productPrice']}';
@@ -104,10 +114,31 @@ class _CartScreenState extends ConsumerState<CartScreen> {
                                           crossAxisAlignment:
                                               CrossAxisAlignment.center,
                                           children: [
-                                            SvgPicture.asset(
-                                              'assets/svgs/dress.svg',
-                                              // height: 45,
+                                            Expanded(
+                                              child: Padding(
+                                                padding: const EdgeInsets.only(
+                                                    top: 6, bottom: 6),
+                                                child: CachedNetworkImage(
+                                                  progressIndicatorBuilder:
+                                                      (context, url,
+                                                              progress) =>
+                                                          Center(
+                                                    child:
+                                                        CircularProgressIndicator(
+                                                      value: progress.progress,
+                                                      color:
+                                                          AppColor.primaryColor,
+                                                    ),
+                                                  ),
+                                                  imageUrl: userCart['data']
+                                                      ['productImage'],
+                                                ),
+                                              ),
                                             ),
+                                            // SvgPicture.asset(
+                                            //   'assets/svgs/dress.svg',
+                                            //   // height: 45,
+                                            // ),
                                           ],
                                         ),
                                       ),
@@ -121,11 +152,6 @@ class _CartScreenState extends ConsumerState<CartScreen> {
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
                                             children: [
-                                              // TextWidget(
-                                              //     fontWeight: FontWeight.w400,
-                                              //     color: AppColor.brightTextColor,
-                                              //     fontSize: 14,
-                                              //     text: 'Henly shirts'),
                                               TextWidget(
                                                   fontWeight: FontWeight.w400,
                                                   color:
@@ -147,9 +173,14 @@ class _CartScreenState extends ConsumerState<CartScreen> {
                                         children: [
                                           IconButton(
                                               onPressed: () {
-                                                setState(() {
-                                                  quantity + 1;
-                                                });
+                                                ref
+                                                    .read(
+                                                        quantityProvider.state)
+                                                    .state = ref
+                                                        .read(quantityProvider
+                                                            .state)
+                                                        .state +
+                                                    1;
                                               },
                                               icon: Container(
                                                 height: 21.48,
@@ -170,12 +201,20 @@ class _CartScreenState extends ConsumerState<CartScreen> {
                                               fontWeight: FontWeight.w400,
                                               color: AppColor.blackColor,
                                               fontSize: 14,
-                                              text: quantity.toString()),
+                                              text: ref
+                                                  .watch(quantityProvider.state)
+                                                  .state
+                                                  .toString()),
                                           IconButton(
                                               onPressed: () {
-                                                setState(() {
-                                                  quantity - 1;
-                                                });
+                                                ref
+                                                    .read(
+                                                        quantityProvider.state)
+                                                    .state = ref
+                                                        .read(quantityProvider
+                                                            .state)
+                                                        .state +
+                                                    1;
                                               },
                                               icon: Container(
                                                 height: 21.48,

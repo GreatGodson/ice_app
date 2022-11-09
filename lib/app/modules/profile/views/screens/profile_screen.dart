@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:iec_app/app/modules/home/views/screens/home_screen.dart';
 import 'package:iec_app/app/modules/profile/data/user.dart';
 
 import 'package:iec_app/app/shared/utils/theme/app_color.dart';
@@ -6,14 +8,14 @@ import 'package:iec_app/app/shared/views/widgets/cards/profile_card.dart';
 import 'package:iec_app/app/shared/views/widgets/cards/profile_details_card.dart';
 import 'package:iec_app/app/shared/views/widgets/custom_text_widget.dart';
 
-class ProfileScreen extends StatefulWidget {
+class ProfileScreen extends ConsumerStatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
 
   @override
-  State<ProfileScreen> createState() => _ProfileScreenState();
+  ConsumerState<ProfileScreen> createState() => _ProfileScreenState();
 }
 
-class _ProfileScreenState extends State<ProfileScreen> {
+class _ProfileScreenState extends ConsumerState<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,12 +45,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
               fontWeight: FontWeight.w500,
               color: AppColor.blackColor,
               fontSize: 24,
-              text: cachedName),
+              text: ref.watch(userNameProvider.state).state),
           TextWidget(
               fontWeight: FontWeight.w400,
               color: AppColor.brightTextColor,
               fontSize: 16,
-              text: cachedMail),
+              text: ref.watch(userMailProvider.state).state,
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: const [

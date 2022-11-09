@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:iec_app/app/modules/home/views/screens/home_screen.dart';
 import 'package:iec_app/app/modules/location/domain/providers/location_provider.dart';
 import 'package:iec_app/app/modules/profile/data/user.dart';
 
@@ -24,11 +25,11 @@ class ProfileDetailsCard extends ConsumerWidget {
         children: [
           ProfileDetailListTile(
             title: 'Name :',
-            value: cachedName,
+            value: ref.watch(userNameProvider.state).state,
           ),
           ProfileDetailListTile(
             title: 'Email :',
-            value: cachedMail,
+            value: ref.watch(userMailProvider.state).state,
           ),
           location.when(
               data: (locationData) {

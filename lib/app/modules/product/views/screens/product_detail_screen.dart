@@ -2,7 +2,9 @@ import 'dart:convert';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:iec_app/app/modules/authentication/views/screens/signup_screen.dart';
 import 'package:iec_app/app/modules/cart/domain/services/cart_service.dart';
 import 'package:iec_app/app/modules/cart/views/screens/cart_screen.dart';
 import 'package:iec_app/app/modules/profile/data/user.dart';
@@ -11,7 +13,7 @@ import 'package:iec_app/app/shared/utils/theme/app_color.dart';
 import 'package:iec_app/app/shared/views/widgets/buttons/primary_button.dart';
 import 'package:iec_app/app/shared/views/widgets/custom_text_widget.dart';
 
-class ProductDetailScreen extends StatefulWidget {
+class ProductDetailScreen extends ConsumerStatefulWidget {
   const ProductDetailScreen(
       {Key? key,
       required this.productId,
@@ -28,10 +30,11 @@ class ProductDetailScreen extends StatefulWidget {
   final String productId;
 
   @override
-  State<ProductDetailScreen> createState() => _ProductDetailScreenState();
+  ConsumerState<ProductDetailScreen> createState() =>
+      _ProductDetailScreenState();
 }
 
-class _ProductDetailScreenState extends State<ProductDetailScreen> {
+class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -123,9 +126,10 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     Padding(
                       padding: const EdgeInsets.only(top: 5),
                       child: PrimaryButton(
-                          isLoading: false,
+                          isLoading: ref.watch(isLoadingProvider.state).state,
                           title: 'Add to Cart',
                           onPressed: () async {
+                            ref.read(isLoadingProvider.state).state = true;
                             Map<String, dynamic> cartData = {
                               'data': {
                                 'productName': widget.productName,
@@ -150,6 +154,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                             await CartService.addToCart();
                             Navigator.of(context).push(MaterialPageRoute(
                                 builder: (context) => const CartScreen()));
+                            ref.read(isLoadingProvider.state).state = false;
                           }),
                     )
                   ],

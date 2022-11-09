@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:iec_app/app/modules/authentication/domain/services/auth_service.dart';
+import 'package:iec_app/app/modules/home/views/screens/home_screen.dart';
 import 'package:iec_app/app/modules/profile/data/user.dart';
 import 'package:iec_app/app/modules/wrapper/views/bottom_nav_bar.dart';
 import 'package:iec_app/app/shared/helpers/device/device_info.dart';
@@ -53,6 +54,9 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
           cachedMail = Preferences.getString('mail') ?? '';
           cachedPassword = Preferences.getString('password') ?? '';
           devToken = Preferences.getString('token');
+
+          ref.read(userNameProvider.state).state = cachedName;
+          ref.read(userMailProvider.state).state = cachedMail;
 
           // Preferences.getString('password');
 

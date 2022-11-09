@@ -73,3 +73,52 @@ class ValidatorTextForm extends StatelessWidget {
     );
   }
 }
+
+class CustomTextField extends StatelessWidget {
+  const CustomTextField({
+    Key? key,
+    required this.size,
+    required this.onChanged,
+    this.autofocus,
+    this.borderColor,
+    this.initialValue,
+    this.hintText,
+    this.textInputType,
+  }) : super(key: key);
+
+  final Size size;
+  final Function(String) onChanged;
+  final bool? autofocus;
+  final Color? borderColor;
+  final String? initialValue;
+  final String? hintText;
+  final TextInputType? textInputType;
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      maxLines: 1,
+      keyboardType: textInputType ?? TextInputType.text,
+      autofocus: autofocus ?? false,
+      style: textFormTextStyle,
+      onChanged: onChanged,
+      initialValue: initialValue ?? '',
+      cursorColor: AppColor.blackColor,
+      decoration: InputDecoration(
+        hintText: hintText ?? '',
+        hintStyle: hintTextFieldTextStyle,
+        fillColor: AppColor.whiteColor,
+        filled: true,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+          borderSide: BorderSide.none,
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+          borderSide: const BorderSide(color: AppColor.primaryColor),
+        ),
+        prefixStyle: textFormTextStyle,
+      ),
+    );
+  }
+}
