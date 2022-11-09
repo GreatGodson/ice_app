@@ -25,8 +25,6 @@ class _BottomNavBarWidgetState extends ConsumerState<BottomNavBarWidget> {
   bool isVisible = true;
   @override
   Widget build(BuildContext context) {
-    // final currentIndex = ref.watch(currentIndexProvider);
-
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(

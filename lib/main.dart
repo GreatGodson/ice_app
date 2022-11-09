@@ -6,18 +6,14 @@ import 'package:iec_app/app/modules/home/views/screens/home_screen.dart';
 import 'package:iec_app/app/modules/profile/data/user.dart';
 import 'package:iec_app/app/modules/wrapper/views/bottom_nav_bar.dart';
 import 'package:iec_app/app/shared/helpers/preferences/preferences.dart';
+import 'package:iec_app/app/shared/helpers/setup/setups.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
-
   await Preferences.initalize();
-  cachedName = Preferences.getString('name') ?? '';
-  cachedMail = Preferences.getString('mail') ?? '';
-  cachedPassword = Preferences.getString('password') ?? '';
-  devToken = Preferences.getString('token');
-  cachedCart = Preferences.getStringList('cachedCartList') ?? [];
+  Setups.init();
 
   runApp(const ProviderScope(child: MyApp()));
 }

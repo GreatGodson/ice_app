@@ -58,7 +58,6 @@ class _AllProductsScreenState extends ConsumerState<AllProductsScreen> {
                                     productImageUrl: products[index]["image"],
                                     productPrice:
                                         products[index]["price"].toString())));
-                            print(products[index]["image"]);
                           }),
                     );
                   });

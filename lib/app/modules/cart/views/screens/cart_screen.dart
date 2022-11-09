@@ -12,6 +12,7 @@ import 'package:iec_app/app/shared/views/widgets/buttons/primary_button.dart';
 import 'package:iec_app/app/shared/views/widgets/custom_text_widget.dart';
 
 final subTotalProvider = StateProvider((ref) => '');
+final quantityProvider = StateProvider((ref) => 1);
 
 class CartScreen extends ConsumerStatefulWidget {
   const CartScreen({Key? key}) : super(key: key);
@@ -25,8 +26,6 @@ class _CartScreenState extends ConsumerState<CartScreen> {
   Widget build(BuildContext context) {
     final cart = ref.watch(userCart('5'));
     Size size = MediaQuery.of(context).size;
-
-    final quantityProvider = StateProvider((ref) => 1);
 
     return Scaffold(
         bottomNavigationBar: Padding(
@@ -73,11 +72,9 @@ class _CartScreenState extends ConsumerState<CartScreen> {
                   children: [
                     Expanded(
                       child: ListView.builder(
-                        // itemCount: cartData['products'].length,
                         itemCount: cachedCart.length,
                         itemBuilder: (context, index) {
                           final userCart = json.decode(cachedCart[index]);
-                          // int quantity = userCart['data']['productQuantity'];
                           WidgetsBinding.instance.addPostFrameCallback((_) {
                             ref.read(subTotalProvider.state).state =
                                 '＄${userCart['data']['productPrice']}';
@@ -99,7 +96,6 @@ class _CartScreenState extends ConsumerState<CartScreen> {
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       Container(
-                                        // width: size.width / 4.6,
                                         width: 84,
                                         height: 73,
                                         decoration: BoxDecoration(
@@ -135,10 +131,6 @@ class _CartScreenState extends ConsumerState<CartScreen> {
                                                 ),
                                               ),
                                             ),
-                                            // SvgPicture.asset(
-                                            //   'assets/svgs/dress.svg',
-                                            //   // height: 45,
-                                            // ),
                                           ],
                                         ),
                                       ),
@@ -207,14 +199,26 @@ class _CartScreenState extends ConsumerState<CartScreen> {
                                                   .toString()),
                                           IconButton(
                                               onPressed: () {
-                                                ref
-                                                    .read(
-                                                        quantityProvider.state)
-                                                    .state = ref
+                                                if (ref
                                                         .read(quantityProvider
                                                             .state)
-                                                        .state +
-                                                    1;
+                                                        .state ==
+                                                    1) {
+                                                  ref
+                                                          .read(quantityProvider
+                                                              .state)
+                                                          .state <=
+                                                      1;
+                                                } else {
+                                                  ref
+                                                      .read(quantityProvider
+                                                          .state)
+                                                      .state = ref
+                                                          .read(quantityProvider
+                                                              .state)
+                                                          .state -
+                                                      1;
+                                                }
                                               },
                                               icon: Container(
                                                 height: 21.48,

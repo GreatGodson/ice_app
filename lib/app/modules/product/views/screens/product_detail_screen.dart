@@ -70,10 +70,6 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
               ),
             ),
           ),
-          // SvgPicture.asset(
-          //   'assets/svgs/google.svg',
-          //   height: 100,
-          // ),
           Padding(
             padding: const EdgeInsets.only(top: 25),
             child: Container(
@@ -141,8 +137,6 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
 
                             String carted = json.encode(cartData);
                             final newCart = [carted];
-
-                            // cachedCart.add(carted);
 
                             await Preferences.setStringList(
                                 key: 'cachedCartList', value: newCart);

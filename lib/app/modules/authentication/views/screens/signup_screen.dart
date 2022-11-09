@@ -7,6 +7,7 @@ import 'package:iec_app/app/modules/profile/data/user.dart';
 import 'package:iec_app/app/modules/wrapper/views/bottom_nav_bar.dart';
 import 'package:iec_app/app/shared/helpers/device/device_info.dart';
 import 'package:iec_app/app/shared/helpers/preferences/preferences.dart';
+import 'package:iec_app/app/shared/helpers/setup/setups.dart';
 import 'package:iec_app/app/shared/utils/theme/app_color.dart';
 import 'package:iec_app/app/shared/views/widgets/buttons/primary_button.dart';
 import 'package:iec_app/app/shared/views/widgets/custom_divider.dart';
@@ -42,24 +43,8 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
       } else {
         try {
           ref.read(isLoadingProvider.state).state = true;
-
-          final deviceToken = await DeviceHelper.initPlatformState();
-
-          await Preferences.setString(key: 'name', value: firstName);
-          await Preferences.setString(key: 'mail', value: email);
-          await Preferences.setString(key: 'password', value: password);
-          await Preferences.setString(key: 'token', value: deviceToken);
-
-          cachedName = Preferences.getString('name') ?? '';
-          cachedMail = Preferences.getString('mail') ?? '';
-          cachedPassword = Preferences.getString('password') ?? '';
-          devToken = Preferences.getString('token');
-
-          ref.read(userNameProvider.state).state = cachedName;
-          ref.read(userMailProvider.state).state = cachedMail;
-
-          // Preferences.getString('password');
-
+          Setups.localSignUp(
+              ref: ref, firstName: firstName, email: email, password: password);
           await AuthService.addNewUser(
               email: email,
               firstName: firstName,

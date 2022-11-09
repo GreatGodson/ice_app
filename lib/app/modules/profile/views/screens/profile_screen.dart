@@ -38,6 +38,11 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
               const CircleAvatar(
                 radius: 67.5,
                 backgroundColor: AppColor.whiteColor,
+                child: Icon(
+                  Icons.person_add,
+                  color: AppColor.primaryColor,
+                  size: 30,
+                ),
               )
             ],
           ),
@@ -47,10 +52,10 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
               fontSize: 24,
               text: ref.watch(userNameProvider.state).state),
           TextWidget(
-              fontWeight: FontWeight.w400,
-              color: AppColor.brightTextColor,
-              fontSize: 16,
-              text: ref.watch(userMailProvider.state).state,
+            fontWeight: FontWeight.w400,
+            color: AppColor.brightTextColor,
+            fontSize: 16,
+            text: ref.watch(userMailProvider.state).state,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
