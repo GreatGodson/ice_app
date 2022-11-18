@@ -18,7 +18,7 @@ Design inspiration [Figma](https://www.figma.com/file/xmvA4IeGM0pfmvCOUA6SAa/Clo
 |    :---:     |     :---:      |  
 | <img src="screenshots/homeScreen.png" width="500">   | <img src="screenshots/productDetail.png" width="500">   |
 
-| Cart Screen | Product Screen | 
+| Cart Screen | Profile Screen | 
 |    :---:     |     :---:      |  
 | <img src="screenshots/cartScreen.png" width="500">   | <img src="screenshots/profileScreen.png" width="500">   |
 
