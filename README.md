@@ -26,11 +26,17 @@ Design inspiration [Figma](https://www.figma.com/file/xmvA4IeGM0pfmvCOUA6SAa/Clo
 ## Features
 
 • Authentication (Login)
+
 • Add User
+
 • Update User
+
 • User can view categories
+
 • User can view products by categories
+
 • User can add product to cart
+
 • User can view products in cart
 
 
